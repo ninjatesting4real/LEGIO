@@ -1,0 +1,8 @@
+flask
+python-telegram-bot
+telebot
+pymongo
+flask
+asyncio
+motor
+aiohttp
