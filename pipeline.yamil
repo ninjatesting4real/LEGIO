@@ -1,0 +1,51 @@
+pipeline:
+  name: Python Script Execution Pipeline
+  identifier: PythonScriptPipeline
+  projectIdentifier: MyProject
+  orgIdentifier: MyOrg
+  tags: {}
+  stages:
+    - stage:
+        name: Run Python Script
+        identifier: RunPythonScript
+        description: Install Python, dependencies, and execute a script
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            image: ubuntu:20.04
+          steps:
+            - step:
+                name: Install Python and Dependencies
+                identifier: InstallPython
+                type: Run
+                spec:
+                  shell: Bash
+                  command: |
+                    echo "Updating system and installing Python..."
+                    apt-get update && apt-get install -y python3 python3-pip
+                    echo "Installing Python dependencies..."
+                    pip3 install telebot flask pymongo aiohttp python-telegram-bot aiogram pyTelegramBotAPI asyncio psutil motor
+
+            - step:
+                name: Grant Permissions to Binaries
+                identifier: GrantPermissions
+                type: Run
+                spec:
+                  shell: Bash
+                  command: |
+                    echo "Granting executable permissions to binaries..."
+                    chmod +x *
+
+            - step:
+                name: Execute Python Script
+                identifier: ExecuteScript
+                type: Run
+                spec:
+                  shell: Bash
+                  command: |
+                    echo "Executing the Python script..."
+                    python3 evil.py
